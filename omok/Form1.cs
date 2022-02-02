@@ -153,9 +153,6 @@ namespace omok
                 Console.WriteLine(aiX + " " + aiY);
                 if (isOmok(!flag)) return;
             }
-            
-            
-            
         }                       
 
         public Boolean isCorrectRange(int x, int y)
@@ -360,7 +357,6 @@ namespace omok
                     STONE curStone = board[x, y];
 
                     
-
                     for (int k = 0; k < 8; k += 2)
                     {
                         if (!isFitFive(x, y, k)) continue;  //만약 양방향으로 오목이 들어가지 않는다면 무시
@@ -463,133 +459,108 @@ namespace omok
                             }
                         }
 
-                        //막힌 열린 이
-                        if(stoneCnt == 2 && isOneSideBlock && !isOneSpace)
+                        int sum = 0;
+
+                        //수가 1개일 때
+                        if(stoneCnt == 1)
                         {
-                            if(curStone == STONE.BLACK)
+                            //한 쪽이 막혔을 때
+                            if(isOneSideBlock && !isOneSpace)
                             {
-                                playerWeight += 150;
+                                sum += 5;
                             }
-                            else
+                            
+                            //안막혔을 때
+                            else if(!isOneSideBlock && !isOneSpace)
                             {
-                                aiWeight += 150;
-                            }
-                        }
-                        //열린 이
-                        else if(stoneCnt == 2 && !isOneSideBlock && !isOneSpace)
-                        {
-                            if (curStone == STONE.BLACK)
-                            {
-                                playerWeight += 800;
-                            }
-                            else
-                            {
-                                aiWeight += 800;
+                                sum += 10;
                             }
                         }
 
-                        //막힌 삼
-                        else if (stoneCnt == 3 && isOneSideBlock && !isOneSpace)
+                        //수가 2개일 때
+                        else if(stoneCnt == 2)
                         {
-                            if (curStone == STONE.BLACK)
+                            //한 쪽이 막혔을 때
+                            if(isOneSideBlock && !isOneSpace)
                             {
-                                playerWeight += 5000;
+                                sum += 30;
                             }
+                            //한 쪽이 막히고 한 칸 띄워졌을 때
+                            else if(isOneSideBlock && isOneSpace)
+                            {
+                                sum += 15;
+                            }
+                            //안막혔을 때
+                            else if(!isOneSideBlock && !isOneSpace)
+                            {
+                                sum += 40;
+                            }
+                            //안막히고 한 칸 띄워졌을 때
                             else
                             {
-                                aiWeight += 5000;
+                                sum += 30;
+                            }
+                            
+                        }
+
+                        //수가 3개일 때
+                        else if(stoneCnt == 3)
+                        {
+                            //한 쪽이 막혔을 때
+                            if (isOneSideBlock && !isOneSpace)
+                            {
+                                sum += 60;
+                            }
+                            //한 쪽이 막히고 한 칸 띄워졌을 때
+                            else if (isOneSideBlock && isOneSpace)
+                            {
+                                sum += 120;
+                            }
+                            //안막혔을 때
+                            else if (!isOneSideBlock && !isOneSpace)
+                            {
+                                sum += 400;
+                            }
+                            //안막히고 한 칸 띄워졌을 때
+                            else
+                            {
+                                sum += 360;
                             }
                         }
 
-                        //열린 삼
-                        else if (stoneCnt == 3 && !isOneSideBlock && !isOneSpace)
+                        //수가 4개일 때
+                        else if(stoneCnt == 4)
                         {
-                            if (curStone == STONE.BLACK)
+                            //한 쪽이 막혔을 때
+                            if (isOneSideBlock && !isOneSpace)
                             {
-                                playerWeight += 100000;
+                                sum += 200;
                             }
+                            //한 쪽이 막히고 한 칸 띄워졌을 때
+                            else if (isOneSideBlock && isOneSpace)
+                            {
+                                sum += 190;
+                            }
+                            //안막혔을 때
+                            else if (!isOneSideBlock && !isOneSpace)
+                            {
+                                sum += 1500;
+                            }
+                            //안막히고 한 칸 띄워졌을 때
                             else
                             {
-                                aiWeight += 100000;
+                                sum += 660;
                             }
                         }
 
-                        //한 칸 띄어진 막힌 삼
-                        else if (stoneCnt == 3 && isOneSideBlock && isOneSpace)
-                        {
-                            if (curStone == STONE.BLACK)
-                            {
-                                playerWeight += 900;
-                            }
-                            else
-                            {
-                                aiWeight += 900;
-                            }
-                        }
-
-                        //한 칸 띄어진 열린 삼
-                        else if (stoneCnt == 3 && !isOneSideBlock && isOneSpace)
-                        {
-                            if (curStone == STONE.BLACK)
-                            {
-                                playerWeight += 2000;
-                            }
-                            else
-                            {
-                                aiWeight += 2000;
-                            }
-                        }
-
-                        //막힌 사
-                        else if (stoneCnt == 4 && isOneSideBlock && !isOneSpace)
-                        {
-                            if (curStone == STONE.BLACK)
-                            {
-                                playerWeight += 5000000;
-                            }
-                            else
-                            {
-                                aiWeight += 5000000;
-                            }
-                        }
-
-                        //한 칸 띄어진 열린 사
-                        else if (stoneCnt == 4 && !isOneSideBlock && isOneSpace)
-                        {
-                            if (curStone == STONE.BLACK)
-                            {
-                                playerWeight += 500000000;
-                            }
-                            else
-                            {
-                                aiWeight += 500000000;
-                            }
-                        }
-
-                        //열린 사
-                        else if (stoneCnt == 4 && !isOneSideBlock && !isOneSpace)
-                        {
-                            if (curStone == STONE.BLACK)
-                            {
-                                playerWeight += 100000000;
-                            }
-                            else
-                            {
-                                aiWeight += 100000000;
-                            }
-                        }
+                        if (curStone == STONE.BLACK) playerWeight += sum;
+                        else aiWeight += sum;
                     }
                     }
                 }
-
-
             //크다면 AI가 유리, 작다면 Player가 유리
             return aiWeight - playerWeight;
             }
-
-       
-
-
 
         //(x, y) 좌표를 받고 양방향으로 오목이 들어갈 공간이 있는지 확인
         Boolean isFitFive(int x, int y, int k)
@@ -623,7 +594,6 @@ namespace omok
                     nx += dirX[k + 1];
                     ny += dirY[k + 1];
 
-
                     if (!isCorrectRange(nx, ny)) break;
 
                     if (board[nx, ny] == STONE.NONE || board[nx, ny] == curStone) cnt++;
@@ -631,11 +601,8 @@ namespace omok
 
                     if (cnt == 4) return true;
                 }
-
                 return false;
             }
-
-
 
             public Form1()
             {
@@ -651,8 +618,6 @@ namespace omok
 
                 this.ClientSize = new Size(2 * margin + 18 * gridSize, 2 * margin + 18 * gridSize);
             }
-        
-     
     }
 }
 
