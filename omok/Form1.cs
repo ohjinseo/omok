@@ -19,6 +19,7 @@ namespace omok
         const int limit = 2;
         const int INF = int.MaxValue;
         int aiX, aiY;
+        Boolean pvp = false;
 
         //↗,→,↘, ↓
         int[] omok_dirX = new int[]{ -1, 0, 1, 1 };
@@ -59,6 +60,7 @@ namespace omok
             }
 
             for (int x = 3; x <= 15; x += 6)
+            {
                 for (int y = 3; y <= 15; y += 6)
                 {
                     g.FillEllipse(bBrush,
@@ -66,7 +68,33 @@ namespace omok
                       margin + gridSize * y - flowerSize / 2,
                       flowerSize, flowerSize);
                 }
+            }
     }
+        public void init()
+        {
+            for(int i = 0; i < 19; i++)
+            {
+                for(int k = 0; k < 19; k++)
+                {
+                    board[i, k] = STONE.NONE;
+                }
+            }
+
+            g.Clear(Color.Orange);
+            DrawBoard();
+        }
+
+        private void Click_PVP(object sender, EventArgs e)
+        {
+            init();
+            pvp = true;
+        }
+
+        private void Click_AI(object sender, EventArgs e)
+        {
+            init();
+            pvp = false;
+        }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -86,33 +114,48 @@ namespace omok
                 margin + gridSize * y - stoneSize / 2,
                 stoneSize, stoneSize);
 
-            //ai 모드
-            g.FillEllipse(bBrush, r);
-            board[y, x] = STONE.BLACK;
-            if (isOmok(flag)) return;
-
-            alphabetaPruning(0, int.MinValue, int.MaxValue);
-            board[aiY, aiX] = STONE.WHITE;
-            Console.WriteLine("y:" + aiY + " x:" + aiX);
-            if (isOmok(flag)) return;
-
-            //pvp 모드
-            /*
-            if (flag == false)
+            if (pvp)
             {
-                g.FillEllipse(bBrush, r);
-                board[y,x] = STONE.BLACK;
-                if (isOmok(flag)) return;
-                flag = true;
+                //pvp 모드
+                if (flag == false)
+                {
+                    g.FillEllipse(bBrush, r);
+                    board[y, x] = STONE.BLACK;
+                    if (isOmok(flag)) return;
+                    flag = true;
+                }
+                else
+                {
+                    g.FillEllipse(wBrush, r);
+                    board[y, x] = STONE.WHITE;
+                    if (isOmok(flag)) return;
+                    flag = false;
+                }
             }
             else
             {
-                g.FillEllipse(wBrush, r);
-                board[y,x] = STONE.WHITE;
+                //ai 모드
+                board[y, x] = STONE.BLACK;
+                g.FillEllipse(bBrush, r);
                 if (isOmok(flag)) return;
-                flag = false;
+
+
+                alphabetaPruning(0, int.MinValue, int.MaxValue);
+
+                r = new Rectangle(
+                    margin + gridSize * aiY - stoneSize / 2,
+                    margin + gridSize * aiX - stoneSize / 2,
+                    stoneSize, stoneSize);
+
+
+                g.FillEllipse(wBrush, r);
+                board[aiX, aiY] = STONE.WHITE;
+                Console.WriteLine(aiX + " " + aiY);
+                if (isOmok(!flag)) return;
             }
-            */
+            
+            
+            
         }                       
 
         public Boolean isCorrectRange(int x, int y)
@@ -176,8 +219,9 @@ namespace omok
         
         public int alphabetaPruning(int depth, int alpha, int beta)
         {
-            if(depth == 2)
+            if(depth == 3)
             {
+                //Console.WriteLine(getStatus());
                 return getStatus();
             }
 
@@ -217,7 +261,7 @@ namespace omok
                                 board[x, y] = STONE.WHITE;
                                 int temp = alphabetaPruning(depth + 1, alpha, beta);
 
-                                if(v < temp)
+                                if (v < temp)
                                 {
                                     v = temp;
                                     if (depth == 0)
@@ -225,28 +269,23 @@ namespace omok
                                         aiX = x;
                                         aiY = y;
                                     }
-
                                 }
-                                v = Math.Max(v, temp);
                                 board[x, y] = STONE.NONE;
 
                                 alpha = Math.Max(alpha, v);
 
-                               
-
                                 // 가지치기
                                 if(beta <= alpha)
                                 {
-                                    pruning = true; break;
+                                    pruning = true; 
+                                    break;
                                 }
                             }
-
                         }
                         if (pruning) break;
                     }
                     if (pruning) break;
                 }
-
                 return v;
             }
 
@@ -283,7 +322,7 @@ namespace omok
                             {
                                 board[x, y] = STONE.BLACK;
                                 v = Math.Min(v, alphabetaPruning(depth + 1, alpha, beta));
-                                board[x, y] = STONE.BLACK;
+                                board[x, y] = STONE.NONE;
 
                                 beta = Math.Min(beta, v);
 
@@ -429,11 +468,11 @@ namespace omok
                         {
                             if(curStone == STONE.BLACK)
                             {
-                                playerWeight += 30;
+                                playerWeight += 150;
                             }
                             else
                             {
-                                aiWeight += 30;
+                                aiWeight += 150;
                             }
                         }
                         //열린 이
@@ -441,11 +480,11 @@ namespace omok
                         {
                             if (curStone == STONE.BLACK)
                             {
-                                playerWeight += 30;
+                                playerWeight += 800;
                             }
                             else
                             {
-                                aiWeight += 30;
+                                aiWeight += 800;
                             }
                         }
 
@@ -454,11 +493,11 @@ namespace omok
                         {
                             if (curStone == STONE.BLACK)
                             {
-                                playerWeight += 60;
+                                playerWeight += 5000;
                             }
                             else
                             {
-                                aiWeight += 60;
+                                aiWeight += 5000;
                             }
                         }
 
@@ -467,11 +506,11 @@ namespace omok
                         {
                             if (curStone == STONE.BLACK)
                             {
-                                playerWeight += 400;
+                                playerWeight += 100000;
                             }
                             else
                             {
-                                aiWeight += 400;
+                                aiWeight += 100000;
                             }
                         }
 
@@ -480,11 +519,11 @@ namespace omok
                         {
                             if (curStone == STONE.BLACK)
                             {
-                                playerWeight += 120;
+                                playerWeight += 900;
                             }
                             else
                             {
-                                aiWeight += 120;
+                                aiWeight += 900;
                             }
                         }
 
@@ -493,11 +532,11 @@ namespace omok
                         {
                             if (curStone == STONE.BLACK)
                             {
-                                playerWeight += 360;
+                                playerWeight += 2000;
                             }
                             else
                             {
-                                aiWeight += 360;
+                                aiWeight += 2000;
                             }
                         }
 
@@ -506,11 +545,11 @@ namespace omok
                         {
                             if (curStone == STONE.BLACK)
                             {
-                                playerWeight += 200;
+                                playerWeight += 5000000;
                             }
                             else
                             {
-                                aiWeight += 200;
+                                aiWeight += 5000000;
                             }
                         }
 
@@ -519,11 +558,11 @@ namespace omok
                         {
                             if (curStone == STONE.BLACK)
                             {
-                                playerWeight += 660;
+                                playerWeight += 500000000;
                             }
                             else
                             {
-                                aiWeight += 660;
+                                aiWeight += 500000000;
                             }
                         }
 
@@ -532,23 +571,28 @@ namespace omok
                         {
                             if (curStone == STONE.BLACK)
                             {
-                                playerWeight += 1500;
+                                playerWeight += 100000000;
                             }
                             else
                             {
-                                aiWeight += 1500;
+                                aiWeight += 100000000;
                             }
                         }
                     }
                     }
                 }
 
+
             //크다면 AI가 유리, 작다면 Player가 유리
             return aiWeight - playerWeight;
             }
 
-            //(x, y) 좌표를 받고 양방향으로 오목이 들어갈 공간이 있는지 확인
-            Boolean isFitFive(int x, int y, int k)
+       
+
+
+
+        //(x, y) 좌표를 받고 양방향으로 오목이 들어갈 공간이 있는지 확인
+        Boolean isFitFive(int x, int y, int k)
             {
                 STONE curStone = board[x, y];
                 int nx = x;

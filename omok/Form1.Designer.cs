@@ -29,34 +29,89 @@ namespace omok
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.게임모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pvp모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aI모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(785, 563);
+            this.panel1.Size = new System.Drawing.Size(771, 539);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.게임모드ToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(771, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // 게임모드ToolStripMenuItem
+            // 
+            this.게임모드ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pvp모드ToolStripMenuItem,
+            this.aI모드ToolStripMenuItem});
+            this.게임모드ToolStripMenuItem.Name = "게임모드ToolStripMenuItem";
+            this.게임모드ToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.게임모드ToolStripMenuItem.Text = "게임 모드";
+            // 
+            // pvp모드ToolStripMenuItem
+            // 
+            this.pvp모드ToolStripMenuItem.Name = "pvp모드ToolStripMenuItem";
+            this.pvp모드ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pvp모드ToolStripMenuItem.Text = "pvp 모드";
+            this.pvp모드ToolStripMenuItem.Click += new System.EventHandler(this.Click_PVP);
+            // 
+            // aI모드ToolStripMenuItem
+            // 
+            this.aI모드ToolStripMenuItem.Name = "aI모드ToolStripMenuItem";
+            this.aI모드ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aI모드ToolStripMenuItem.Text = "AI 모드";
+            this.aI모드ToolStripMenuItem.Click += new System.EventHandler(this.Click_AI);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(785, 563);
+            this.ClientSize = new System.Drawing.Size(771, 563);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 게임모드ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pvp모드ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aI모드ToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }
 
