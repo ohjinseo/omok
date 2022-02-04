@@ -36,6 +36,9 @@ namespace omok
             this.pvp모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aI모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.돌선택ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.흑돌ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.백돌ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +55,8 @@ namespace omok
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.게임모드ToolStripMenuItem});
+            this.게임모드ToolStripMenuItem,
+            this.돌선택ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(771, 24);
@@ -71,14 +75,14 @@ namespace omok
             // pvp모드ToolStripMenuItem
             // 
             this.pvp모드ToolStripMenuItem.Name = "pvp모드ToolStripMenuItem";
-            this.pvp모드ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pvp모드ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.pvp모드ToolStripMenuItem.Text = "pvp 모드";
             this.pvp모드ToolStripMenuItem.Click += new System.EventHandler(this.Click_PVP);
             // 
             // aI모드ToolStripMenuItem
             // 
             this.aI모드ToolStripMenuItem.Name = "aI모드ToolStripMenuItem";
-            this.aI모드ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aI모드ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.aI모드ToolStripMenuItem.Text = "AI 모드";
             this.aI모드ToolStripMenuItem.Click += new System.EventHandler(this.Click_AI);
             // 
@@ -86,6 +90,29 @@ namespace omok
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // 돌선택ToolStripMenuItem
+            // 
+            this.돌선택ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.흑돌ToolStripMenuItem,
+            this.백돌ToolStripMenuItem});
+            this.돌선택ToolStripMenuItem.Name = "돌선택ToolStripMenuItem";
+            this.돌선택ToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.돌선택ToolStripMenuItem.Text = "돌 선택";
+            // 
+            // 흑돌ToolStripMenuItem
+            // 
+            this.흑돌ToolStripMenuItem.Name = "흑돌ToolStripMenuItem";
+            this.흑돌ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.흑돌ToolStripMenuItem.Text = "흑돌";
+            this.흑돌ToolStripMenuItem.Click += new System.EventHandler(this.black_Click);
+            // 
+            // 백돌ToolStripMenuItem
+            // 
+            this.백돌ToolStripMenuItem.Name = "백돌ToolStripMenuItem";
+            this.백돌ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.백돌ToolStripMenuItem.Text = "백돌";
+            this.백돌ToolStripMenuItem.Click += new System.EventHandler(this.white_Click);
             // 
             // Form1
             // 
@@ -112,6 +139,9 @@ namespace omok
         private System.Windows.Forms.ToolStripMenuItem pvp모드ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aI모드ToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 돌선택ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 흑돌ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 백돌ToolStripMenuItem;
     }
 }
 

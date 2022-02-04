@@ -17,7 +17,7 @@ namespace omok
         const int gridSize = 40;
         const int stoneSize = 32;
         const int flowerSize = 10;
-        
+
         //연산 속도, 횟수 측정
         Stopwatch stopwatch = new Stopwatch();
         int calCnt = 0;
@@ -39,6 +39,7 @@ namespace omok
         STONE[,] board = new STONE[19, 19];
         bool flag = false;  //flase = 흑돌, true = 흰돌
         bool isFirst = true;
+        bool isBlack = false;
 
         Graphics g;
         Pen pen;
@@ -102,6 +103,26 @@ namespace omok
             pvp = false;
         }
 
+        private void black_Click(object sender, EventArgs e)
+        {
+            init();
+            isBlack = false;
+            
+
+        }
+
+        private void white_Click(object sender, EventArgs e)
+        {
+            init();
+            Rectangle r = new Rectangle(
+                margin + gridSize * 9 - stoneSize / 2,
+                margin + gridSize * 9 - stoneSize / 2,
+                stoneSize, stoneSize);
+            board[9, 9] = STONE.BLACK;
+            g.FillEllipse(bBrush, r);
+            isBlack = true;
+        }
+
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             int x = (e.X - margin + gridSize / 2) / gridSize;
@@ -116,8 +137,18 @@ namespace omok
 
             if (!isFirst)
             {
-                g.FillEllipse(wBrush, r);
-                g.DrawEllipse(p, r);
+                if (isBlack)
+                {
+                    p = new Pen(Color.Black, 3);
+                    g.FillEllipse(bBrush, r);
+                    g.DrawEllipse(p, r);
+                }
+                else
+                {
+                    g.FillEllipse(wBrush, r);
+                    g.DrawEllipse(p, r);
+                }
+                   
             }
 
 
@@ -162,7 +193,12 @@ namespace omok
 
 
                 board[y, x] = STONE.BLACK;
-                g.FillEllipse(bBrush, r);
+                if (isBlack)
+                    g.FillEllipse(wBrush, r);
+                else
+                    g.FillEllipse(bBrush, r);
+
+
                 if (isOmok(flag)) return;
 
                 calCnt = 0;
@@ -179,7 +215,10 @@ namespace omok
                 whiteX = aiX;
                 whiteY = aiY;
                 p = new Pen(Color.Red, 3);
-                g.FillEllipse(wBrush, r);
+                if(isBlack)
+                    g.FillEllipse(bBrush, r);
+                else
+                    g.FillEllipse(wBrush, r);
                 g.DrawEllipse(p, r);
                 board[aiX, aiY] = STONE.WHITE;
                 Console.WriteLine(aiX + " " + aiY);
@@ -371,6 +410,8 @@ namespace omok
                 return v;
             }
         }
+
+       
 
         public int getStatus()
         {
