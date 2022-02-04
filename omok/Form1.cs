@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace omok
 {
@@ -16,8 +17,10 @@ namespace omok
         const int gridSize = 40;
         const int stoneSize = 32;
         const int flowerSize = 10;
-        const int limit = 2;
-        const int INF = int.MaxValue;
+        
+        //연산 속도, 횟수 측정
+        Stopwatch stopwatch = new Stopwatch();
+        int calCnt = 0;
         int aiX, aiY;
         int whiteX, whiteY;
         Boolean pvp = false;
@@ -40,7 +43,7 @@ namespace omok
         Graphics g;
         Pen pen;
         Brush wBrush, bBrush;
-        
+
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
@@ -116,7 +119,7 @@ namespace omok
                 g.FillEllipse(wBrush, r);
                 g.DrawEllipse(p, r);
             }
-            
+
 
             if (isFirst) isFirst = false;
 
@@ -156,16 +159,18 @@ namespace omok
             else
             {
                 //ai 모드
-               
+
 
                 board[y, x] = STONE.BLACK;
                 g.FillEllipse(bBrush, r);
                 if (isOmok(flag)) return;
 
-                
-
+                calCnt = 0;
+                stopwatch.Start();  //---------------시간 측정 시작
                 alphabetaPruning(0, int.MinValue, int.MaxValue);
+                stopwatch.Stop();   //---------------시간 측정 끝
 
+                Console.WriteLine("time : " + stopwatch.ElapsedMilliseconds + "ms" + "   Calculate Count : " + calCnt);
                 r = new Rectangle(
                     margin + gridSize * aiY - stoneSize / 2,
                     margin + gridSize * aiX - stoneSize / 2,
@@ -243,7 +248,7 @@ namespace omok
 
         public int alphabetaPruning(int depth, int alpha, int beta)
         {
-            if (depth == 3)
+            if (depth == 4)
             {
                 //Console.WriteLine(getStatus());
                 return getStatus();
@@ -282,6 +287,7 @@ namespace omok
 
                             if (flag)
                             {
+                                calCnt++;
                                 board[x, y] = STONE.WHITE;
                                 int temp = alphabetaPruning(depth + 1, alpha, beta);
 
@@ -390,7 +396,7 @@ namespace omok
 
                         nx = x;
                         ny = y;
-
+                        calCnt++;
                         //돌의 개수를 확인하고 돌이 한 칸 띄워진지 확인함
                         stoneCnt = 1;
                         flag = false;
@@ -581,7 +587,7 @@ namespace omok
                         }
 
                         //수가 5개 또는 6개일 때
-                        else if(stoneCnt == 5 || stoneCnt == 6)
+                        else if (stoneCnt == 5 || stoneCnt == 6)
                         {
                             sum += 2000;
                         }
