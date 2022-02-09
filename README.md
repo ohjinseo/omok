@@ -1,8 +1,13 @@
 # omok
 
 아래링크에서 코드에 대한 자세한 설명을 볼 수 있습니다.
+
 [C#으로 오목 AI 구현해보기 #1](https://velog.io/@ohjinseo/C%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%AA%A9-AI-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EA%B8%B0-1)
+
 [C#으로 오목 AI 구현해보기 #2](https://velog.io/@ohjinseo/C%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%AA%A9-AI-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EA%B8%B0-2)
+
+<br />
+<br />
 
 Minimax와 Alpha-beta pruning 알고리즘을 이용한 오목 프로그램입니다. 
 
